@@ -2,21 +2,25 @@ import asyncHandle from "express-async-handler";
 import Product from "../models/productModels.js";
 const productController = {
     getAllProduct : asyncHandle(async (req, res) => {
+        try{
             const products = await Product.find({});
             res.json(products);
+        }catch(error){
+            throw new Error("Not Found List Product")
+        }
+           
         }),
-    getSingleProduct : asyncHandle(async (req, res) => {
+    getSingleProduct : asyncHandle(async (req, res, next) => {
+        try{
         const product = await Product.findById(req.params.id);
-        if(product){
-            res.json(product);
+        res.json(product)
         }
-        else{
-            res.status(404);
-            throw new Error("Product not found");
-        }
-        }),
+        catch(error){
+           throw new Error("Product Not Found")
+        }}
+        ),
     addProduct : asyncHandle(async (req, res) => {
-       const { name , image, desc, price ,countInStock } = req.body; 
+       const { name , image, desc, price ,size } = req.body; 
        const productExist = await Product.findOne({name})
        if(productExist){
            res.status(400);
@@ -28,7 +32,7 @@ const productController = {
            image,
            desc,
            price,
-           countInStock
+           size
        });
        if(product){
            const createdproduct = await product.save()

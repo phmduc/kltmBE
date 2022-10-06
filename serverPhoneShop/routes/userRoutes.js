@@ -57,7 +57,7 @@ userRoutes.post(
          })}
          else{
             res.status(401)
-            throw new Error("Invalid Email or Password")
+            throw new Error("Wrong email or password")
          };
     }
 ))
