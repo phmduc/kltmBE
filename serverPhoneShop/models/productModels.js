@@ -25,6 +25,15 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    Cate:{
+        idCate: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"Category"},
+        nameCate: {
+            type: String,
+            required: true,}
+    }
+    ,
     size:[sizeSchema],
     price:{
         type: Number,

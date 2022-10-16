@@ -19,8 +19,17 @@ const productController = {
            throw new Error("Product Not Found")
         }}
         ),
+    getProductByCategory : asyncHandle(async (req, res, next) => {
+        try{
+        const product = await Product.find({category});
+        res.json(product)
+        }
+        catch(error){
+            throw new Error("Product Not Found")
+        }}
+        ),
     addProduct : asyncHandle(async (req, res) => {
-       const { name , image, desc, price ,size } = req.body; 
+       const { name , image, cate,  desc, price ,size } = req.body; 
        const productExist = await Product.findOne({name})
        if(productExist){
            res.status(400);
@@ -30,6 +39,7 @@ const productController = {
        const product = new Product({
            name,
            image,
+           cate, 
            desc,
            price,
            size

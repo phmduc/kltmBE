@@ -3,6 +3,8 @@ import dotenv from "dotenv"
 import connectDatabase from "./config/mongoDB.js"
 import ImportData from "./dataImport.js"
 import productRoutes from "./routes/productRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+
 
 import userRoutes from "./routes/userRoutes.js";
 import { errorHandle, notFound } from "./middleware/Error.js";
@@ -26,6 +28,7 @@ app.use(fileUpload({
 app.use("/api/import", ImportData)
 app.use("/api/users", userRoutes)
 app.use("/api/products", productRoutes)
+app.use("/api/category", categoryRoutes)
 app.use("/api/uploads", imgRouter);
 app.get("/", (req, res) => {
   res.send("server is running....");
