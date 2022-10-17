@@ -11,16 +11,23 @@ const sizeSchema  = mongoose.Schema({
         required: true,
     }
 })
- 
+const imgSchema  = mongoose.Schema({
+    publicId:{
+        type: String,
+        required: true,
+    },
+    url:{
+        type: String,
+        required: true,
+    }
+})
+
 const productSchema = mongoose.Schema({
     name:{
         type: String,
         required: true
     },
-    image:{
-        type: String,
-        required: true,
-    },
+    image:[imgSchema],
     desc:{
         type: String,
         required: true,
@@ -28,7 +35,8 @@ const productSchema = mongoose.Schema({
     Cate:{
         idCate: {
             type: mongoose.Schema.Types.ObjectId,
-            ref:"Category"},
+            ref:"Category"
+        },
         nameCate: {
             type: String,
             required: true,}

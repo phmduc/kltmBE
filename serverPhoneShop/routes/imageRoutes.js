@@ -31,7 +31,20 @@ imgRouter.post('/', async (req, res) => {
     res.status(500).json("Oops, Error!")
 }
 });
-
+imgRouter.post('/destroy', async (req,res)=>{
+  try{
+    const deletefile= req.body.publicId;
+    console.log(deletefile)
+    if(!deletefile) return res.status(400).json({ msg: 'no images selected'})
+    console.log(deletefile)
+    cloudinary.v2.uploader.destroy(deletefile, async(err, result)=>{
+      if (err) throw err;
+      res.json({msg: 'deleted image'})
+    })
+  }catch(err){
+    res.status(500).json("Oops, notfound")
+  }
+});
 
 export default imgRouter
 

@@ -39,11 +39,13 @@ const productController = {
        const product = new Product({
            name,
            image,
-           cate, 
+           Cate:{idCate: cate.idCate,
+            nameCate: cate.nameCate, },
            desc,
            price,
            size
        });
+       console.log(product)
        if(product){
            const createdproduct = await product.save()
            res.status(201).json(createdproduct);

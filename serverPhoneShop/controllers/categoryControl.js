@@ -20,7 +20,8 @@ const categoryController = {
         }}
         ),
     addCategory : asyncHandle(async (req, res) => {
-       const { user, nameCate, avatarCate  } = req.body; 
+       const {  nameCate, avatarCate  } = req.body; 
+       console.log(req.body)
        const categoryExist = await Category.findOne({nameCate})
        if(categoryExist){
            res.status(400);
@@ -28,7 +29,6 @@ const categoryController = {
        }
        else{
        const category = new Category({
-        user, 
         nameCate,
         avatarCate 
        });
@@ -42,10 +42,9 @@ const categoryController = {
        }
         }}),
     updateCategory : asyncHandle(async (req, res) => {
-        const { user, nameCate, avatarCate   } = req.body; 
+        const { nameCate, avatarCate } = req.body; 
         const category = await Category.findById(req.params.id);
         if(category){
-            category.user=user;
             category.nameCate=nameCate;
             category.avatarCate= avatarCate;
             const updatedCategory = await category.save();

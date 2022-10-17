@@ -1,14 +1,22 @@
 import mongoose from "mongoose";
 
+
+const avatarSchema  = mongoose.Schema({
+    publicId:{
+        type: String,
+        required: true,
+    },
+    url:{
+        type: String,
+        required: true,
+    }
+})
 const orderSchema  = mongoose.Schema({
     nameCate: {
         type: String,
         required: true,
     },
-    avatarCate: {
-        type: String,
-        required: true,
-    },
+    avatarCate:[avatarSchema]
     },
     {
         timestamps: true,
