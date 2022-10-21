@@ -43,6 +43,8 @@ const categoryController = {
         }}),
     updateCategory : asyncHandle(async (req, res) => {
         const { nameCate, avatarCate } = req.body; 
+        console.log(req.body)
+        console.log(req.params.id)
         const category = await Category.findById(req.params.id);
         if(category){
             category.nameCate=nameCate;
