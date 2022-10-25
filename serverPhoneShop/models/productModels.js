@@ -32,15 +32,9 @@ const productSchema = mongoose.Schema(
     desc: {
       type: String,
     },
-    Cate: {
-      idCate: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-      },
-      nameCate: {
-        type: String,
-        required: true,
-      },
+    idCate: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
     },
     size: [sizeSchema],
     price: {
