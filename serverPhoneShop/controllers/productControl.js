@@ -26,7 +26,7 @@ const productController = {
     }
   }),
   addProduct: asyncHandle(async (req, res) => {
-    const { name, image, idCate, desc, price, size } = req.body;
+    const { name, image, idCate, desc, size } = req.body;
     const productExist = await Product.findOne({ name });
     console.log(image);
     if (productExist) {
@@ -38,7 +38,6 @@ const productController = {
         image,
         idCate,
         desc,
-        price,
         size,
       });
       console.log(product);

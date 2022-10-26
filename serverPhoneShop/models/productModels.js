@@ -10,6 +10,10 @@ const sizeSchema = mongoose.Schema({
     default: 0,
     required: true,
   },
+  price: {
+    type: Number,
+    required: true,
+  },
 });
 const imgSchema = mongoose.Schema({
   publicId: {
@@ -37,10 +41,6 @@ const productSchema = mongoose.Schema(
       ref: "Category",
     },
     size: [sizeSchema],
-    price: {
-      type: Number,
-      required: true,
-    },
   },
   {
     timestamps: true,
