@@ -51,11 +51,11 @@ const productController = {
     }
   }),
   updateProduct: asyncHandle(async (req, res) => {
-    const { name, image, desc, price, size } = req.body;
+    const { name, image, desc, cate, size } = req.body;
     const product = await Product.findById(req.params.id);
     if (product) {
       product.name = name;
-      product.price = price;
+      product.cate = cate;
       product.desc = desc;
       product.image = image;
       product.size = size;
