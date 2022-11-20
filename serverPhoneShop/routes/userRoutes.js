@@ -10,6 +10,12 @@ const userRoutes = express.Router();
 //get all product
 userRoutes.get("/", userController.getAllUser);
 
+userRoutes.put("/:id", userController.updateUser);
+
+userRoutes.put("/verify/:id", userController.verifyUser);
+
+userRoutes.delete("/:id", userController.deleteUser);
+
 //register
 userRoutes.post(
   "/register",
@@ -32,8 +38,10 @@ userRoutes.post(
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+        isVerify: user.isVerify,
         token: generateToken(user._id),
       });
+      sendmail(user._id);
     } else {
       res.status(400);
       throw new Error("Invalid User Data");
@@ -53,12 +61,13 @@ userRoutes.post(
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+        isVerify: user.isVerify,
         token: generateToken(user._id),
         createdAt: user.createdAt,
       });
     } else {
       res.status(401);
-      throw new Error("Wrong email or password");
+      throw new Error("Sai Tài Khoản hoặc Mật Khẩu");
     }
   })
 );

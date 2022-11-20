@@ -7,6 +7,7 @@ const orderSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    name: { type: String, required: true },
     orderItems: [
       {
         id: {
@@ -14,16 +15,18 @@ const orderSchema = mongoose.Schema(
           required: true,
           ref: "Product",
         },
+        name: { type: String, required: true },
         count: { type: Number, required: true },
         image: { type: String, required: true },
-        size: { type: String, required: true },
+        sizeId: { type: String, required: true },
         price: { type: Number, required: true },
       },
     ],
     address: {
-      address: { type: String, required: true },
+      addressDetail: { type: String, required: true },
       city: { type: String, required: true },
-      country: { type: String, required: true },
+      district: { type: String, required: true },
+      ward: { type: String, required: true },
     },
     paymentMethod: {
       type: String,
