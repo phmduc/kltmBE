@@ -5,6 +5,7 @@ import ImportData from "./dataImport.js";
 import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import mailRouter from "./routes/mailRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 
 import userRoutes from "./routes/userRoutes.js";
 import { errorHandle, notFound } from "./middleware/Error.js";
@@ -32,6 +33,7 @@ app.use(
 app.use("/api/import", ImportData);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/order", orderRoutes);
 app.use("/api/email", mailRouter);
 app.use("/api/category", categoryRoutes);
 app.use("/api/uploads", imgRouter);

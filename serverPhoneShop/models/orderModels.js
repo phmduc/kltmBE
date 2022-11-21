@@ -1,5 +1,17 @@
 import mongoose from "mongoose";
 
+const orderItemSchema = mongoose.Schema({
+  id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Product",
+  },
+  count: { type: Number, required: true },
+  name: { type: String, required: true },
+  sizeId: { type: String, required: true },
+  price: { type: Number, required: true },
+});
+
 const orderSchema = mongoose.Schema(
   {
     user: {
@@ -8,20 +20,7 @@ const orderSchema = mongoose.Schema(
       ref: "User",
     },
     name: { type: String, required: true },
-    orderItems: [
-      {
-        id: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: "Product",
-        },
-        name: { type: String, required: true },
-        count: { type: Number, required: true },
-        image: { type: String, required: true },
-        sizeId: { type: String, required: true },
-        price: { type: Number, required: true },
-      },
-    ],
+    orderItems: [orderItemSchema],
     address: {
       addressDetail: { type: String, required: true },
       city: { type: String, required: true },
@@ -39,6 +38,11 @@ const orderSchema = mongoose.Schema(
       default: 0,
     },
     isPaid: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    isVerify: {
       type: Boolean,
       required: true,
       default: false,

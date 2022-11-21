@@ -1,5 +1,5 @@
 import asyncHandle from "express-async-handler";
-import Order from "../models/orderModels";
+import Order from "../models/orderModels.js";
 const orderController = {
   getAllOrder: asyncHandle(async (req, res) => {
     try {
@@ -9,32 +9,17 @@ const orderController = {
       throw new Error("Not Found List Order");
     }
   }),
-  //   getSingleProduct: asyncHandle(async (req, res, next) => {
-  //     try {
-  //       const product = await Product.findById(req.params.id);
-  //       res.json(product);
-  //     } catch (error) {
-  //       throw new Error("Product Not Found");
-  //     }
-  //   }),
-  //   getProductByCategory: asyncHandle(async (req, res, next) => {
-  //     try {
-  //       const product = await Product.find({ category });
-  //       res.json(product);
-  //     } catch (error) {
-  //       throw new Error("Product Not Found");
-  //     }
-  //   }),
+
   createOrder: asyncHandle(async (req, res) => {
-    const { user, orderItem, address, paymentMethod, totalPrice, isPaid } =
+    const { user, name, orderItems, address, paymentMethod, totalPrice } =
       req.body;
     const order = new Order({
       user,
-      orderItem,
+      name,
+      orderItems,
       address,
       paymentMethod,
       totalPrice,
-      isPaid,
     });
     if (order) {
       const createdOrder = await order.save();
@@ -72,4 +57,4 @@ const orderController = {
   //   }),
 };
 
-export default productController;
+export default orderController;
