@@ -72,6 +72,22 @@ userRoutes.post(
   })
 );
 
+//user ChangePass
+userRoutes.put(
+  "/changepass/:id",
+  asyncHandle(async (req, res) => {
+    const { email, password, newPass } = req.body;
+    const user = await User.findOne({ email });
+    if (user && (await user.matchPass(password))) {
+      user.password = newPass;
+      await user.save();
+    } else {
+      res.status(400);
+      throw new Error("Invalid Product Data");
+    }
+  })
+);
+
 //user Profile
 userRoutes.get(
   "/profile",
