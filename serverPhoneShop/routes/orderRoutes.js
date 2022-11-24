@@ -11,6 +11,8 @@ orderRoutes.get("/", orderController.getAllOrder);
 //get single product
 // add Order
 orderRoutes.post("/", orderController.createOrder);
+//Verify
+orderRoutes.put("/:id", orderController.verifyOrder);
 
 // update Product
 // delete product

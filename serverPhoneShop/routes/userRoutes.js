@@ -78,9 +78,11 @@ userRoutes.put(
   asyncHandle(async (req, res) => {
     const { email, password, newPass } = req.body;
     const user = await User.findOne({ email });
+    console.log(user);
     if (user && (await user.matchPass(password))) {
       user.password = newPass;
-      await user.save();
+      const passUser = await user.save();
+      res.json(passUser);
     } else {
       res.status(400);
       throw new Error("Invalid Product Data");

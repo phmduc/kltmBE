@@ -1,22 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-const sizeSchema = mongoose.Schema({
-  sizeId: {
-    type: String,
-    required: true,
-  },
-  count: {
-    type: Number,
-    default: 0,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-});
-
 const userSchema = mongoose.Schema(
   {
     name: {
