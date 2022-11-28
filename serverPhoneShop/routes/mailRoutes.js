@@ -8,7 +8,7 @@ const GOOGLE_MAILER_CLIENT_ID =
   "59952435750-a5ou6j0159r229akbqb94orrmdie10ad.apps.googleusercontent.com";
 const GOOGLE_MAILER_CLIENT_SECRET = "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";
 const GOOGLE_MAILER_REFRESH_TOKEN =
-  "1//04oSdD3nX5b5RCgYIARAAGAQSNwF-L9IrRjQQZbEPV3KPO7PWbUCb3dSHuwvZvBb3uXy7VKTjyKqR6S2YsiD3owP9TcHJh7cdfx0";
+  "1//04GDGfqypNJaECgYIARAAGAQSNwF-L9IrhJQtg_Bf2YIj-NlP2OWD3Xc32Yl37svgeKw-H3A9dVUIf96_v_ZQ64_B2yWHICmal4w";
 const ADMIN_EMAIL_ADDRESS = "phmduc1012@gmail.com";
 const myOAuth2Client = new OAuth2Client(
   GOOGLE_MAILER_CLIENT_ID,
@@ -20,7 +20,7 @@ myOAuth2Client.setCredentials({
 
 mailRouter.post("/send", async (req, res) => {
   try {
-    const { email, web } = req.body;
+    const { email, subject, content } = req.body;
     if (!email) throw new Error("Please provide email, subject and content!");
 
     const myAccessTokenObject = await myOAuth2Client.getAccessToken();
@@ -38,8 +38,8 @@ mailRouter.post("/send", async (req, res) => {
     });
     const mailOptions = {
       to: email, // Gửi đến ai?
-      subject: "Xác thực tài khoản", // Tiêu đề email
-      html: `<h3>Ấn vào đường link để xác minh: </h3> <a href='http://${web}'> click here </a>`, // Nội dung email
+      subject: subject, // Tiêu đề email
+      html: content, // Nội dung email
     };
     await transport.sendMail(mailOptions);
     res.status(200).json({ message: "Email sent successfully." });

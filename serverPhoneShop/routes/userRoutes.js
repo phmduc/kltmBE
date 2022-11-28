@@ -90,6 +90,38 @@ userRoutes.put(
   })
 );
 
+//user ChangePass
+userRoutes.put(
+  "/changeforgetpass",
+  asyncHandle(async (req, res) => {
+    const { email, newPass } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+      user.password = newPass;
+      const passUser = await user.save();
+      res.json(passUser);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Product Data");
+    }
+  })
+);
+
+//user Checkmail
+userRoutes.get(
+  "/forgetpass/:email",
+  asyncHandle(async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Product Data");
+    }
+  })
+);
+
 //user Profile
 userRoutes.get(
   "/profile",
