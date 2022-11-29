@@ -42,6 +42,11 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    isCancel: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     isVerify: {
       type: Boolean,
       required: true,

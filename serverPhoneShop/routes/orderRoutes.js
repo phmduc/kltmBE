@@ -13,8 +13,9 @@ orderRoutes.get("/", orderController.getAllOrder);
 orderRoutes.post("/", orderController.createOrder);
 //Verify
 orderRoutes.put("/:id", orderController.verifyOrder);
-
-// update Product
-// delete product
+//cancel
+orderRoutes.put("/cancel/:id", orderController.cancelOrder);
+// delete Order
+orderRoutes.delete("/:id", orderController.deleteOrder);
 
 export default orderRoutes;

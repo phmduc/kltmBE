@@ -13,11 +13,16 @@ const orderController = {
   createOrder: asyncHandle(async (req, res) => {
     const { user, name, orderItems, address, paymentMethod, totalPrice } =
       req.body;
+    let isPaid = true;
+    if (paymentMethod === "COD") {
+      isPaid = false;
+    }
     const order = new Order({
       user,
       name,
       orderItems,
       address,
+      isPaid,
       paymentMethod,
       totalPrice,
     });
@@ -38,6 +43,27 @@ const orderController = {
     } else {
       res.status(400);
       throw new Error("Invalid Order");
+    }
+  }),
+  cancelOrder: asyncHandle(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      order.isCancel = true;
+      const createdOrder = await order.save();
+      res.status(201).json(createdOrder);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Order");
+    }
+  }),
+  deleteOrder: asyncHandle(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      await order.deleteOne();
+      res.json("xoa thanh cong");
+    } else {
+      res.status(400);
+      throw new Error("Not Found Order");
     }
   }),
 };
