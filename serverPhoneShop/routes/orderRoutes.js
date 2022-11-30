@@ -7,8 +7,6 @@ const orderRoutes = express.Router();
 
 //get all product
 orderRoutes.get("/", orderController.getAllOrder);
-
-//get single product
 // add Order
 orderRoutes.post("/", orderController.createOrder);
 //Verify
@@ -17,5 +15,7 @@ orderRoutes.put("/:id", orderController.verifyOrder);
 orderRoutes.put("/cancel/:id", orderController.cancelOrder);
 // delete Order
 orderRoutes.delete("/:id", orderController.deleteOrder);
+// get order by user
+orderRoutes.get("/user", orderController.getOrderByUser);
 
 export default orderRoutes;

@@ -11,7 +11,7 @@ const orderController = {
   }),
 
   createOrder: asyncHandle(async (req, res) => {
-    const { user, name, orderItems, address, paymentMethod, totalPrice } =
+    const { user, name, orderItems, address, paymentMethod, totalPrice, img } =
       req.body;
     let isPaid = true;
     if (paymentMethod === "COD") {
@@ -25,6 +25,7 @@ const orderController = {
       isPaid,
       paymentMethod,
       totalPrice,
+      img,
     });
     if (order) {
       const createdOrder = await order.save();
@@ -61,6 +62,16 @@ const orderController = {
     if (order) {
       await order.deleteOne();
       res.json("xoa thanh cong");
+    } else {
+      res.status(400);
+      throw new Error("Not Found Order");
+    }
+  }),
+  getOrderByUser: asyncHandle(async (req, res) => {
+    const { userId } = req.body;
+    const orders = await Order.find({ userId });
+    if (orders) {
+      res.json(orders);
     } else {
       res.status(400);
       throw new Error("Not Found Order");
