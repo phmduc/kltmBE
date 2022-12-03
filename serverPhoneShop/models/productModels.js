@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const sizeSchema = mongoose.Schema({
   sizeId: {
@@ -26,6 +26,26 @@ const imgSchema = mongoose.Schema({
   },
 });
 
+const voteSchema = mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
+  username: {
+    type: String,
+    require: true,
+  },
+  starVote: {
+    type: Number,
+    require: true,
+  },
+  comment: {
+    type: String,
+    require: true,
+  },
+});
+
 const productSchema = mongoose.Schema(
   {
     name: {
@@ -38,15 +58,16 @@ const productSchema = mongoose.Schema(
     },
     idCate: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+      ref: 'Category',
     },
     size: [sizeSchema],
+    voting: [voteSchema],
   },
   {
     timestamps: true,
   }
 );
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model('Product', productSchema);
 
 export default Product;
