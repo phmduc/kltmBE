@@ -26,26 +26,6 @@ const imgSchema = mongoose.Schema({
   },
 });
 
-const voteSchema = mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "User",
-  },
-  username: {
-    type: String,
-    require: true,
-  },
-  starVote: {
-    type: Number,
-    require: true,
-  },
-  comment: {
-    type: String,
-    require: true,
-  },
-});
-
 const productSchema = mongoose.Schema(
   {
     name: {
@@ -61,7 +41,6 @@ const productSchema = mongoose.Schema(
       ref: "Category",
     },
     size: [sizeSchema],
-    voting: [voteSchema],
   },
   {
     timestamps: true,
