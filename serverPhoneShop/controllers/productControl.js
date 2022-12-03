@@ -1,12 +1,12 @@
-import asyncHandle from 'express-async-handler';
-import Product from '../models/productModels.js';
+import asyncHandle from "express-async-handler";
+import Product from "../models/productModels.js";
 const productController = {
   getAllProduct: asyncHandle(async (req, res) => {
     try {
       const products = await Product.find({});
       res.json(products);
     } catch (error) {
-      throw new Error('Not Found List Product');
+      throw new Error("Not Found List Product");
     }
   }),
   getSingleProduct: asyncHandle(async (req, res, next) => {
@@ -14,7 +14,7 @@ const productController = {
       const product = await Product.findById(req.params.id);
       res.json(product);
     } catch (error) {
-      throw new Error('Product Not Found');
+      throw new Error("Product Not Found");
     }
   }),
   getProductByCategory: asyncHandle(async (req, res, next) => {
@@ -22,7 +22,7 @@ const productController = {
       const product = await Product.find({ category });
       res.json(product);
     } catch (error) {
-      throw new Error('Product Not Found');
+      throw new Error("Product Not Found");
     }
   }),
   addProduct: asyncHandle(async (req, res) => {
@@ -31,7 +31,7 @@ const productController = {
     console.log(image);
     if (productExist) {
       res.status(400);
-      throw new Error('Product name already exist');
+      throw new Error("Product name already exist");
     } else {
       const product = new Product({
         name,
@@ -46,7 +46,7 @@ const productController = {
         res.status(201).json(createdproduct);
       } else {
         res.status(400);
-        throw new Error('Invalid Product');
+        throw new Error("Invalid Product");
       }
     }
   }),
@@ -63,17 +63,29 @@ const productController = {
       res.json(updatedProduct);
     } else {
       res.status(400);
-      throw new Error('Invalid Product Data');
+      throw new Error("Invalid Product Data");
     }
   }),
   deleteProduct: asyncHandle(async (req, res) => {
     const product = await Product.findById(req.params.id);
     if (product) {
       await product.deleteOne();
-      res.json('xoa thanh cong');
+      res.json("xoa thanh cong");
     } else {
       res.status(400);
-      throw new Error('Not Found Product');
+      throw new Error("Not Found Product");
+    }
+  }),
+  addComment: asyncHandle(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      const { vote } = req.body;
+      product.vote = [...product.vote, vote];
+      const updatedProduct = await product.save();
+      res.json(updatedProduct);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Product Data");
     }
   }),
 };

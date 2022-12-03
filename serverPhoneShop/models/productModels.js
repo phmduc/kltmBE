@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import moment from "moment-timezone";
 const sizeSchema = mongoose.Schema({
   sizeId: {
     type: String,
@@ -25,7 +25,28 @@ const imgSchema = mongoose.Schema({
     required: true,
   },
 });
-
+const votingSchema = mongoose.Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  comment: {
+    type: String,
+    required: true,
+  },
+  starVote: {
+    type: Number,
+    required: true,
+  },
+  created: {
+    type: String,
+    required: true,
+  },
+});
 const productSchema = mongoose.Schema(
   {
     name: {
@@ -41,6 +62,7 @@ const productSchema = mongoose.Schema(
       ref: "Category",
     },
     size: [sizeSchema],
+    vote: [votingSchema],
   },
   {
     timestamps: true,
