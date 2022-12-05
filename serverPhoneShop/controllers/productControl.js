@@ -80,7 +80,7 @@ const productController = {
     const product = await Product.findById(req.params.id);
     if (product) {
       const { vote } = req.body;
-      product.vote = [...product.vote, vote];
+      product.vote = [vote, ...product.vote];
       const updatedProduct = await product.save();
       res.json(updatedProduct);
     } else {
