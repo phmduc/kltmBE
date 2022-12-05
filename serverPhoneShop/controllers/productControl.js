@@ -88,6 +88,22 @@ const productController = {
       throw new Error("Invalid Product Data");
     }
   }),
+  updateQuantity: asyncHandle(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    const { sizeId, count } = req.body;
+    if (product) {
+      product.size.map((elem, index) => {
+        if (elem.sizeId === sizeId) {
+          elem.count -= count;
+        }
+      });
+      const updatedProduct = await product.save();
+      res.json(updatedProduct);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Product Data");
+    }
+  }),
 };
 
 export default productController;

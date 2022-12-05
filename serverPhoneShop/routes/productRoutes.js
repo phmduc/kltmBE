@@ -17,5 +17,7 @@ productRoutes.put("/:id", productController.updateProduct);
 productRoutes.delete("/:id", productController.deleteProduct);
 // addcomment
 productRoutes.put("/comment/:id", productController.addComment);
+// updateQuantily
+productRoutes.put("/updateqtt/:id", productController.updateQuantity);
 
 export default productRoutes;
