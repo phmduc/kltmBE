@@ -16,6 +16,9 @@ orderRoutes.put("/cancel/:id", orderController.cancelOrder);
 // delete Order
 orderRoutes.delete("/:id", orderController.deleteOrder);
 // get order by user
-orderRoutes.get("/user", orderController.getOrderByUser);
-
+orderRoutes.post("/user", orderController.getOrderByUser);
+// get order by date
+orderRoutes.post("/date", orderController.getOrderByDate);
+// get order by year
+orderRoutes.post("/year", orderController.getOrderByYear);
 export default orderRoutes;

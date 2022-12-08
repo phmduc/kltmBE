@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema(
       require: true,
       default: false,
     },
+    date: {
+      type: String,
+      require: true,
+    },
   },
   {
     timestamps: true,

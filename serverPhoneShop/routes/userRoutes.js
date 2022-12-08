@@ -20,7 +20,7 @@ userRoutes.delete("/:id", userController.deleteUser);
 userRoutes.post(
   "/register",
   asyncHandle(async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, date } = req.body;
     const userExist = await User.findOne({ email });
 
     if (userExist) {
@@ -31,6 +31,7 @@ userRoutes.post(
       name,
       email,
       password,
+      date,
     });
     if (user) {
       res.status(201).json({
