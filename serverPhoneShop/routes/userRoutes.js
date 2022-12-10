@@ -108,17 +108,34 @@ userRoutes.put(
   })
 );
 
+//user ChangePass forget
+userRoutes.put(
+  "/repass/:id",
+  asyncHandle(async (req, res) => {
+    const { newPass } = req.body;
+    const user = await User.findById(req.params.id);
+    if (user) {
+      user.password = newPass;
+      const passUser = await user.save();
+      res.json(passUser);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Product Data");
+    }
+  })
+);
+
 //user Checkmail
 userRoutes.get(
   "/forgetpass/:email",
   asyncHandle(async (req, res) => {
-    const { email } = req.body;
+    const email = req.params.email;
     const user = await User.findOne({ email });
     if (user) {
       res.json(user);
     } else {
       res.status(400);
-      throw new Error("Invalid Product Data");
+      throw new Error("Mail chưa đăng ký");
     }
   })
 );
