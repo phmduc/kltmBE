@@ -16,6 +16,10 @@ userRoutes.put("/verify/:id", userController.verifyUser);
 
 userRoutes.delete("/:id", userController.deleteUser);
 
+//get user by date
+userRoutes.post("/date", userController.getUserByDate);
+userRoutes.post("/year", userController.getUserByYear);
+
 //register
 userRoutes.post(
   "/register",
