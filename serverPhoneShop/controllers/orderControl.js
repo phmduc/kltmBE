@@ -163,6 +163,7 @@ const orderController = {
         },
       ];
       const sortOrders = orders.filter((elem, index) => {
+        console.log(elem.date);
         return Number(elem.date.split("@")[0].split("/")[2]) === year;
       });
       sortOrders.forEach((elem) => {
