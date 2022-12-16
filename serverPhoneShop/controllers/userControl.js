@@ -14,7 +14,9 @@ const userController = {
         user.name = name;
       }
       if (isAdmin) {
-        user.isAdmin = isAdmin;
+        user.isAdmin = true;
+      } else {
+        user.isAdmin = false;
       }
       if (name) {
         user.isVerify = isVerify;
