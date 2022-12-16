@@ -11,6 +11,8 @@ orderRoutes.get("/", orderController.getAllOrder);
 orderRoutes.post("/", orderController.createOrder);
 //Verify
 orderRoutes.put("/:id", orderController.verifyOrder);
+//Paid
+orderRoutes.put("/paid/:id", orderController.paidOrder);
 //Delivered
 orderRoutes.put("/delivered/:id", orderController.deliveredOrder);
 //cancel

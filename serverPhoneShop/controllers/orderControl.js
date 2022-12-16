@@ -20,7 +20,6 @@ const orderController = {
       totalPrice,
       img,
       date,
-      x,
     } = req.body;
     let isPaid = true;
     if (paymentMethod === "COD") {
@@ -49,6 +48,17 @@ const orderController = {
     const order = await Order.findById(req.params.id);
     if (order) {
       order.isVerify = true;
+      const createdOrder = await order.save();
+      res.status(201).json(createdOrder);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Order");
+    }
+  }),
+  paidOrder: asyncHandle(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      order.isPaid = true;
       const createdOrder = await order.save();
       res.status(201).json(createdOrder);
     } else {
