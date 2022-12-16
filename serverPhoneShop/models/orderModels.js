@@ -53,6 +53,10 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    isDelivered: {
+      type: Number,
+      default: -1,
+    },
     date: {
       type: String,
       required: true,

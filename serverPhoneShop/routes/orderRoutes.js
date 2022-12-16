@@ -11,6 +11,8 @@ orderRoutes.get("/", orderController.getAllOrder);
 orderRoutes.post("/", orderController.createOrder);
 //Verify
 orderRoutes.put("/:id", orderController.verifyOrder);
+//Delivered
+orderRoutes.put("/delivered/:id", orderController.deliveredOrder);
 //cancel
 orderRoutes.put("/cancel/:id", orderController.cancelOrder);
 // delete Order
@@ -21,4 +23,6 @@ orderRoutes.post("/user", orderController.getOrderByUser);
 orderRoutes.post("/date", orderController.getOrderByDate);
 // get order by year
 orderRoutes.post("/year", orderController.getOrderByYear);
+// get bestseller by year
+orderRoutes.post("/bestseller/year", orderController.getBestSeller);
 export default orderRoutes;

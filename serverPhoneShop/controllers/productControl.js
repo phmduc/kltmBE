@@ -9,6 +9,36 @@ const productController = {
       throw new Error("Not Found List Product");
     }
   }),
+  getEightProduct: asyncHandle(async (req, res) => {
+    try {
+      const products = await Product.find({});
+      const list = products.filter((elem, index) => {
+        if (index + 1 < 9) {
+          return elem;
+        } else {
+          return;
+        }
+      });
+      res.json(list);
+    } catch (error) {
+      throw new Error("Not Found List Product");
+    }
+  }),
+  getFourNewestProduct: asyncHandle(async (req, res) => {
+    try {
+      const products = await Product.find({});
+      const list = products.reverse().filter((elem, index) => {
+        if (index + 1 < 5) {
+          return elem;
+        } else {
+          return;
+        }
+      });
+      res.json(list);
+    } catch (error) {
+      throw new Error("Not Found List Product");
+    }
+  }),
   getSingleProduct: asyncHandle(async (req, res, next) => {
     try {
       const product = await Product.findById(req.params.id);

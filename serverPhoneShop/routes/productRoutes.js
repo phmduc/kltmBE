@@ -7,6 +7,10 @@ const productRoutes = express.Router();
 
 //get all product
 productRoutes.get("/", productController.getAllProduct);
+//get four newest product
+productRoutes.get("/four", productController.getFourNewestProduct);
+//get eight  product
+productRoutes.get("/eight", productController.getEightProduct);
 //get single product
 productRoutes.get("/:id", productController.getSingleProduct);
 // add Product

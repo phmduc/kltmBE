@@ -56,6 +56,18 @@ const orderController = {
       throw new Error("Invalid Order");
     }
   }),
+  deliveredOrder: asyncHandle(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    const { bool } = req.body;
+    if (order) {
+      order.isDelivered = bool;
+      const createdOrder = await order.save();
+      res.status(201).json(createdOrder);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Order");
+    }
+  }),
   cancelOrder: asyncHandle(async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (order) {
@@ -99,10 +111,50 @@ const orderController = {
         );
         return (
           Number(currentday) >= Number(new Date(fromDate)) &&
-          Number(currentday) <= Number(new Date(toDate))
+          Number(currentday) <= Number(new Date(toDate)) &&
+          elem.isPaid === true
         );
       });
-      res.json(sortOrders);
+      let soldProduct = [];
+      sortOrders.forEach((elem, index) => {
+        elem.orderItems.forEach((item, index) => {
+          if (soldProduct.length === 0) {
+            soldProduct.push({
+              id: item.id,
+              count: item.count,
+              name: item.name,
+              total: item.price,
+            });
+          } else {
+            if (
+              soldProduct.find((el) => {
+                return el.id.equals(item.id);
+              })
+            ) {
+              soldProduct[
+                soldProduct.findIndex((el) => el.id.equals(item.id))
+              ].count += item.count;
+              soldProduct[
+                soldProduct.findIndex((el) => el.id.equals(item.id))
+              ].total += item.price;
+            } else {
+              soldProduct.push({
+                id: item.id,
+                count: item.count,
+                name: item.name,
+                total: item.price,
+              });
+            }
+          }
+        });
+      });
+
+      res.json({
+        sortOrders,
+        soldestProduct: soldProduct.reduce((max, min) =>
+          max.count > min.count ? max : min
+        ),
+      });
     } else {
       res.status(400);
       throw new Error("Not Found Order");
@@ -163,7 +215,10 @@ const orderController = {
         },
       ];
       const sortOrders = orders.filter((elem, index) => {
-        return Number(elem.date.split("@")[0].split("/")[2]) === year;
+        return (
+          Number(elem.date.split("@")[0].split("/")[2]) === year &&
+          elem.isPaid === true
+        );
       });
       sortOrders.forEach((elem) => {
         data.map((month, index) => {
@@ -173,6 +228,57 @@ const orderController = {
         });
       });
       res.json(data);
+    } else {
+      res.status(400);
+      throw new Error("Not Found Order");
+    }
+  }),
+  getBestSeller: asyncHandle(async (req, res) => {
+    const { year } = req.body;
+    const orders = await Order.find({});
+    if (orders) {
+      const sortOrders = orders.filter((elem, index) => {
+        return (
+          Number(elem.date.split("@")[0].split("/")[2]) === year &&
+          elem.isPaid === true
+        );
+      });
+      let soldProduct = [];
+      sortOrders.forEach((elem, index) => {
+        elem.orderItems.forEach((item, index) => {
+          if (soldProduct.length === 0) {
+            soldProduct.push({
+              id: item.id,
+              count: item.count,
+              name: item.name,
+              total: item.price,
+              img: item.img,
+            });
+          } else if (soldProduct.length <= 5) {
+            if (
+              soldProduct.find((el) => {
+                return el.id.equals(item.id);
+              })
+            ) {
+              soldProduct[
+                soldProduct.findIndex((el) => el.id.equals(item.id))
+              ].count += item.count;
+              soldProduct[
+                soldProduct.findIndex((el) => el.id.equals(item.id))
+              ].total += item.price;
+            } else {
+              soldProduct.push({
+                id: item.id,
+                count: item.count,
+                name: item.name,
+                total: item.price,
+                img: item.img,
+              });
+            }
+          }
+        });
+      });
+      res.json(soldProduct);
     } else {
       res.status(400);
       throw new Error("Not Found Order");
