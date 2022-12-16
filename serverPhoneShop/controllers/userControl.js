@@ -14,6 +14,7 @@ const userController = {
         user.name = name;
       }
       if (isAdmin) {
+        console.log(isAdmin);
         user.isAdmin = true;
       } else {
         user.isAdmin = false;
