@@ -26,6 +26,11 @@ const userSchema = mongoose.Schema(
       require: true,
       default: false,
     },
+    isLock: {
+      type: Number,
+      require: true,
+      default: 0,
+    },
     date: {
       type: String,
       require: true,

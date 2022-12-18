@@ -7,21 +7,21 @@ const userController = {
   }),
 
   updateUser: asyncHandle(async (req, res) => {
-    const { name, isAdmin, isVerify } = req.body;
+    const { name, isAdmin, isVerify, isLock } = req.body;
     const user = await User.findById(req.params.id);
     if (user) {
       if (name) {
         user.name = name;
       }
       if (isAdmin) {
-        console.log(isAdmin);
-        user.isAdmin = true;
-      } else {
-        user.isAdmin = false;
+        user.isAdmin = isAdmin;
       }
       if (name) {
         user.isVerify = isVerify;
       }
+      if (isLock === 1) {
+        user.isLock = isLock;
+      } else user.isLock = isLock;
       const updatedUser = await user.save();
       res.json(updatedUser);
     } else {
@@ -50,6 +50,7 @@ const userController = {
       throw new Error("Not Found User");
     }
   }),
+
   getUserByDate: asyncHandle(async (req, res) => {
     const { fromDate, toDate } = req.body;
     const Users = await User.find({});

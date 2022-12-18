@@ -61,15 +61,20 @@ userRoutes.post(
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (user && (await user.matchPass(password))) {
-      res.json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        isVerify: user.isVerify,
-        token: generateToken(user._id),
-        createdAt: user.createdAt,
-      });
+      if (user.isLock === 0)
+        res.json({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          isVerify: user.isVerify,
+          token: generateToken(user._id),
+          createdAt: user.createdAt,
+        });
+      else {
+        res.status(401);
+        throw new Error("Tài khoản của bạn đã bị khóa");
+      }
     } else {
       res.status(401);
       throw new Error("Sai Tài Khoản hoặc Mật Khẩu");
