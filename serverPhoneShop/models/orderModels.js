@@ -28,6 +28,10 @@ const orderSchema = mongoose.Schema(
       district: { type: String, required: true },
       ward: { type: String, required: true },
     },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
     paymentMethod: {
       type: String,
       required: true,
