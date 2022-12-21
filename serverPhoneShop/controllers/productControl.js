@@ -81,14 +81,95 @@ const productController = {
     }
   }),
   updateProduct: asyncHandle(async (req, res) => {
-    const { name, image, desc, idCate, size } = req.body;
+    const { name, image, desc, idCate } = req.body;
     const product = await Product.findById(req.params.id);
     if (product) {
       product.name = name;
       product.idCate = idCate;
       product.desc = desc;
       product.image = image;
-      product.size = size;
+      const updatedProduct = await product.save();
+      res.json(updatedProduct);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Product Data");
+    }
+  }),
+  updateSize: asyncHandle(async (req, res) => {
+    const { sizeId, sizeCount, sizePrice } = req.body;
+    const product = await Product.findById(req.params.id);
+    const currentdate = new Date();
+    if (product) {
+      if (
+        product.size.some((elem) => {
+          return elem.sizeId === sizeId;
+        })
+      ) {
+        product.size.find((elem) => {
+          return elem.sizeId === sizeId;
+        }).price = sizePrice;
+      } else {
+        product.size.push({
+          sizeId: sizeId,
+          count: sizeCount,
+          price: sizePrice,
+        });
+        product.historyUpdate = [
+          {
+            sizeId: sizeId,
+            date:
+              currentdate.getDate() +
+              "/" +
+              (currentdate.getMonth() + 1) +
+              "/" +
+              currentdate.getFullYear() +
+              " @ " +
+              currentdate.getHours() +
+              ":" +
+              currentdate.getMinutes() +
+              ":" +
+              currentdate.getSeconds(),
+            status: 3,
+          },
+          ...product.historyUpdate,
+        ];
+      }
+
+      const updatedProduct = await product.save();
+      res.json(updatedProduct);
+    } else {
+      res.status(400);
+      throw new Error("Invalid Product Data");
+    }
+  }),
+  deleteSize: asyncHandle(async (req, res) => {
+    const { sizeId } = req.body;
+    const product = await Product.findById(req.params.id);
+    const currentdate = new Date();
+
+    if (product) {
+      product.size = product.size.filter((elem) => {
+        return elem.sizeId !== sizeId;
+      });
+      product.historyUpdate = [
+        {
+          sizeId: sizeId,
+          date:
+            currentdate.getDate() +
+            "/" +
+            (currentdate.getMonth() + 1) +
+            "/" +
+            currentdate.getFullYear() +
+            " @ " +
+            currentdate.getHours() +
+            ":" +
+            currentdate.getMinutes() +
+            ":" +
+            currentdate.getSeconds(),
+          status: 4,
+        },
+        ...product.historyUpdate,
+      ];
       const updatedProduct = await product.save();
       res.json(updatedProduct);
     } else {
@@ -120,13 +201,64 @@ const productController = {
   }),
   updateQuantity: asyncHandle(async (req, res) => {
     const product = await Product.findById(req.params.id);
-    const { sizeId, count } = req.body;
+    const { sizeId, count, fromOrder } = req.body;
+    const currentdate = new Date();
+    var newCount;
+    console.log(count);
     if (product) {
       product.size.map((elem, index) => {
         if (elem.sizeId === sizeId) {
           elem.count -= count;
+          newCount = elem.count;
         }
       });
+      if (fromOrder) {
+        product.historyUpdate = [
+          {
+            sizeId: sizeId,
+            date:
+              currentdate.getDate() +
+              "/" +
+              (currentdate.getMonth() + 1) +
+              "/" +
+              currentdate.getFullYear() +
+              " @ " +
+              currentdate.getHours() +
+              ":" +
+              currentdate.getMinutes() +
+              ":" +
+              currentdate.getSeconds(),
+            status: count > 0 ? 0 : 1,
+            oldCount: newCount + count,
+            number: Math.abs(count),
+            newCount: newCount,
+            fromOrder: fromOrder,
+          },
+          ...product.historyUpdate,
+        ];
+      } else
+        product.historyUpdate = [
+          {
+            sizeId: sizeId,
+            date:
+              currentdate.getDate() +
+              "/" +
+              (currentdate.getMonth() + 1) +
+              "/" +
+              currentdate.getFullYear() +
+              " @ " +
+              currentdate.getHours() +
+              ":" +
+              currentdate.getMinutes() +
+              ":" +
+              currentdate.getSeconds(),
+            status: count > 0 ? 0 : 1,
+            oldCount: newCount + count,
+            number: Math.abs(count),
+            newCount: newCount,
+          },
+          ...product.historyUpdate,
+        ];
       const updatedProduct = await product.save();
       res.json(updatedProduct);
     } else {

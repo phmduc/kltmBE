@@ -25,6 +25,27 @@ const imgSchema = mongoose.Schema({
     required: true,
   },
 });
+const historySchema = mongoose.Schema({
+  sizeId: {
+    type: String,
+  },
+  date: {
+    type: String,
+  },
+  status: {
+    type: Number,
+  },
+  oldCount: {
+    type: Number,
+  },
+  number: {
+    type: Number,
+  },
+  newCount: {
+    type: Number,
+  },
+  fromOrder: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+});
 const votingSchema = mongoose.Schema({
   userId: {
     type: String,
@@ -63,6 +84,7 @@ const productSchema = mongoose.Schema(
     },
     size: [sizeSchema],
     vote: [votingSchema],
+    historyUpdate: [historySchema],
   },
   {
     timestamps: true,

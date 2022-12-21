@@ -17,6 +17,10 @@ productRoutes.get("/:id", productController.getSingleProduct);
 productRoutes.post("/", productController.addProduct);
 // update Product
 productRoutes.put("/:id", productController.updateProduct);
+// update Size
+productRoutes.put("/size/:id", productController.updateSize);
+// delete Size
+productRoutes.put("/size/delete/:id", productController.deleteSize);
 // delete product
 productRoutes.delete("/:id", productController.deleteProduct);
 // addcomment
